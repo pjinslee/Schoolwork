@@ -1,0 +1,76 @@
+% BigO_proof.tex
+\documentclass{article}
+\usepackage[top=1.0in, bottom=1.0in, left=1.0in, right=1.0in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{url}
+
+% Beginning of the LaTeX document
+\begin{document}
+
+\title{CS 350 Proof 1}
+\author{Team 8: Peter Inslee and 3 other classmates}
+\date{January 30, 2012}
+\maketitle
+
+\parindent 0pt
+\parskip 5pt
+
+\textbf{Conjecture:} $f(n) \in O(h(n)) \Rightarrow 2^{f(n)} \in O(2^{h(n)})$
+
+\textbf{Disproof by Counterexample:}
+We test the given conjecture with a choice of functions $f$ and $h$ satisfying the antecedent of the given implication, and failing to satisfy its consequent. In both cases we use the definition of big $O$ notation to make our point; directly in the former case, and with a Proof by Contradiction in the latter case. Having shown for our particular choice of functions that the entailment does not hold, we conclude that the conjecture is not true in general.
+
+\begin{enumerate}
+  \item Let $f(n) = 2lg(n)$ and let $h(n) = lg(n)$.
+  \item Verify the antecedent, using the definition of big $O$ to show that $2lg(n) \in O(lg(n))$.
+  \[
+  \begin{array}{lrlr} 
+    2.1 & \forall n \ge 1, & 0 \le lg(n) & \textbf{Definition of } lg \\
+    2.2 & \forall n \ge 1, & 0 \le 2lg(n) \le 3lg(n) & \textbf{Property of} \le , (\text{since } 0 \le 2 \le 3) \\
+    2.3 & \forall n \ge 1, & 0 \le f(n) \le 3h(n) & \textbf{Hypothesis } 1. \\
+    2.4 & \exists c', n_{0}' > 0, \forall n \ge n_{0}', & 0 \le f(n) \le c'h(n) & \textbf{Letting } 3 = c', 1 = n_{0}' \\
+    2.5 & & f(n) \in O(h(n)) & \textbf{Definition of } O
+  \end{array}
+  \]
+  \item Refute the consequent, using the definition of big $O$ and a Proof by Contradiction demonstrating that $2^{f(n)} \notin O(2^{h(n)})$.
+  \begin{enumerate}
+    \item Suppose, (by way of contradiction), that $2^{f(n)} \in O(2^{h(n)})$.
+    \[
+    \begin{array}{lrlr}
+      3.1.1 & \exists c, n_{0} > 0, \forall n \ge n_{0}, & 0 \le 2^{f(n)} \le c2^{h(n)} & \textbf{Definition of } O \\
+      3.1.2 & \exists c, n_{0} > 0, \forall n \ge n_{0}, & 0 \le 2^{2lg(n)} \le c2^{lg(n)} & \textbf{Hypothesis } 1. \\
+      3.1.3 & \exists c, n_{0} > 0, \forall n \ge n_{0}, & 0 \le 2^{lg(n^{2})} \le c2^{lg(n)} & \textbf{Property of } lg, (ylg(x) = lg(x^{y})) \\
+      3.1.4 & \exists c, n_{0} > 0, \forall n \ge n_{0}, & 0 \le n^{2} \le cn & \textbf{Property of } lg, (2^{lg(x)} = x^{lg(2)} = x) \\
+      3.1.5 & \exists c, n_{0} > 0, \forall n \ge n_{0}, & 0 \le n \le c & \textbf{Property of} \le, (\text{divide all sides by } n)\footnotemark[1]
+    \end{array}
+    \]
+    \item Note that 3.1.5 is a contradiction, as it claims that there exists some positive constant $c$ that is an upper bound for all real numbers $n$ (greater than or equal to some minimum value $n_{0}$). But by a property of the real numbers, we know that \emph{no such upper bound exists}. Hence, supposition (a) must be incorrect, and its negation, given below, must be true.
+    \[
+    \begin{array}{lrlr}
+      3.2.1 & & \neg[2^{f(n)} \in O(2^{h(n)})] & \textbf{Proof by Contradiction}
+    \end{array}
+    \]
+
+    \footnotetext[1]{Since $0 < n_{0} \le n$, we may safely divide all sides by $n$, without fear of dividing by zero or changing the direction of the inequality.}
+
+  \end{enumerate}
+  \item Contradict the implication. Any argument of the form $A \Rightarrow B$ can be disproved by exhibiting a case in which $B$ can be false when $A$ is true.
+  \[
+  \begin{array}{lrlr}
+    4.1 & & f(n) \in O(h(n)) & \textbf{From } 2.5 \\
+    4.2 & & \neg[2^{f(n)} \in O(2^{h(n)})] & \textbf{From } 3.2.1 \\
+    4.3 & & [f(n) \in O(h(n))] \wedge \neg[2^{f(n)} \in O(2^{h(n)})] & \textbf{Conjunction Introduction} \\
+    4.4 & & f(n) \in O(h(n)) \nRightarrow 2^{f(n)} \in O(2^{h(n)}) & \textbf{Definition of } \Rightarrow \\
+    QED
+  \end{array}
+  \]
+\end{enumerate}
+
+\begin{thebibliography}{9}
+  \bibitem{Levitin2012} Anany Levitin, \emph{Introduction to the Design and Analysis of Algorithms}, Pearson Education, Inc., publishing as Addison-Wesley, 2012 (Third Edition).
+  \bibitem{Wikipedia_Big_O} Big O notation. In Wikipedia: The Free Encyclopedia. Wikimedia Foundation Inc. Encyclopedia on-line. Available from \url{http://en.wikipedia.org/wiki/Big_O_notation}. Internet. Retrieved 29 January 2012.
+  \bibitem{Wikipedia_Conj_Intro} Conjunction Introduction. In Wikipedia: The Free Encyclopedia. Wikimedia Foundation Inc. Encyclopedia on-line. Available from \url{http://en.wikipedia.org/wiki/Conjunction_Introduction}. Internet. Retrieved 29 January 2012.
+\end{thebibliography}
+
+\end{document}
